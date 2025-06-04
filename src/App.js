@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { FaBitcoin, FaEthereum } from "react-icons/fa";
+import { MdOutlineArrowForwardIos } from "react-icons/md";
 
 const coins = ["BTC", "ETH", "USDT", "BNB", "ADA", "XRP"];
 
@@ -39,7 +42,32 @@ function App() {
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
           </div>
+<div className="flex items-center justify-center mt-4 space-x-2">
+  <motion.div
+    initial={{ x: -60 }}
+    animate={{ x: 0 }}
+    transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+  >
+    <FaBitcoin className="text-yellow-400 text-2xl" />
+  </motion.div>
 
+  <motion.div
+    initial={{ scale: 0.8 }}
+    animate={{ scale: 1.1 }}
+    transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+    className="text-white text-sm"
+  >
+    🔁 LABIRINT 🔁
+  </motion.div>
+
+  <motion.div
+    initial={{ x: 60 }}
+    animate={{ x: 0 }}
+    transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+  >
+    <FaEthereum className="text-blue-400 text-2xl" />
+  </motion.div>
+</div>
           {/* Exchange Form */}
           <div className="bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-md border border-gray-700 space-y-6">
             <h2 className="text-xl md:text-2xl font-semibold text-white tracking-wide text-center shadow-md">
