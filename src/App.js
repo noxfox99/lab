@@ -60,8 +60,7 @@ const handleSwap = () => {
             <p className="text-gray-400 text-lg">
          {/* Coin Collision Animation */}
   <p className="text-gray-400 text-lg">
-<div className="absolute w-full flex flex-col items-center top-0 z-0 pointer-events-none">
-         
+    <div className="relative w-full flex flex-col items-center my-6">         
         <AnimatePresence initial={false}>
           {!showUSDT && (
             <>
