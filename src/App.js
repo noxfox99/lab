@@ -38,11 +38,7 @@ function App() {
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
               Anonymous Web3.0 Crypto Exchange
             </h1>
-            <p className="text-gray-400 text-lg">
-              Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
-            </p>
-          </div>
-<div className="flex items-center justify-center mt-4 space-x-2">
+        <div className="flex items-center justify-center mt-4 space-x-2">
   <motion.div
     initial={{ x: -60 }}
     animate={{ x: 0 }}
@@ -68,6 +64,10 @@ function App() {
     <FaEthereum className="text-blue-400 text-2xl" />
   </motion.div>
 </div>
+            <p className="text-gray-400 text-lg">
+              Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
+            </p>
+          </div>
           {/* Exchange Form */}
           <div className="bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-md border border-gray-700 space-y-6">
             <h2 className="text-xl md:text-2xl font-semibold text-white tracking-wide text-center shadow-md">
