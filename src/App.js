@@ -25,11 +25,18 @@ const handleSwap = () => {
     setAnimateCoins(false); // Reset
     setTimeout(() => setAnimateCoins(true), 50); // Restart animation
 
-    setShowUSDT(false);
-    setTrigger((prev) => prev + 1);
-    setTimeout(() => setShowUSDT(true), 1400);
+   // setShowUSDT(false);
+   // setTrigger((prev) => prev + 1);
+    //setTimeout(() => setShowUSDT(true), 1400);
   };
-
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowUSDT(false);
+      setTrigger((prev) => prev + 1);
+      setTimeout(() => setShowUSDT(true), 1400);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col">
       
