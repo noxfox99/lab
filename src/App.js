@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import { SiTether } from "react-icons/si";
+import { SiTether, SiMonero } from "react-icons/si";
 
 const coins = ["BTC", "ETH", "USDT", "BNB", "ADA", "XRP"];
 
@@ -48,33 +48,28 @@ const coinSound = new Audio("https://assets.mixkit.co/sfx/download/mixkit-arcade
             </h1>
 {/* Animation */}
           {/* 🔁 Animation - Only if triggered */}
-        {animateCoins && (
-          <div className="flex items-center justify-center mt-6 space-x-10">
-            <motion.div
-              initial={{ x: -100, opacity: 1 }}
-              animate={{ x: 0, opacity: 0 }}
-              transition={{ duration: 1.5 }}
-            >
-              <FaBitcoin className="text-yellow-400 text-4xl" />
-            </motion.div>
+     <div className="flex items-center justify-center mt-6 space-x-10">
+  <motion.div
+    animate={{ x: [0, -20, 0], rotate: [0, 15, -15, 0] }}
+    transition={{ duration: 2, repeat: Infinity }}
+  >
+    <FaBitcoin className="text-yellow-400 text-4xl" />
+  </motion.div>
 
-            <motion.div
-              initial={{ x: 100, opacity: 1 }}
-              animate={{ x: 0, opacity: 0 }}
-              transition={{ duration: 1.5 }}
-            >
-              <FaEthereum className="text-blue-400 text-4xl" />
-            </motion.div>
+  <motion.div
+    animate={{ scale: [1, 1.3, 1], rotate: [0, 360, 0] }}
+    transition={{ duration: 2, repeat: Infinity }}
+  >
+    <SiMonero className="text-orange-500 text-5xl" />
+  </motion.div>
 
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [0, 1.4, 1], opacity: 1, boxShadow: "0 0 15px #0f0" }}
-              transition={{ delay: 1.5, duration: 0.6 }}
-            >
-              <SiTether className="text-green-400 text-5xl drop-shadow-glow" />
-            </motion.div>
-          </div>
-        )}
+  <motion.div
+    animate={{ x: [0, 20, 0], rotate: [0, -15, 15, 0] }}
+    transition={{ duration: 2, repeat: Infinity }}
+  >
+    <SiTether className="text-green-400 text-4xl drop-shadow-glow" />
+  </motion.div>
+</div>
             <p className="text-gray-400 text-lg">
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
