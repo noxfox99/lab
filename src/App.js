@@ -53,7 +53,7 @@ function App() {
     transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
     className="text-white text-sm"
   >
-    🔁 LABIRINT 🔁
+   
   </motion.div>
 
   <motion.div
