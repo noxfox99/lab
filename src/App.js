@@ -88,19 +88,6 @@ const handleSwap = () => {
               >
                 <SiTether className="drop-shadow-glow" />
               </motion.div>
-              <Confetti
-    width={1280}
-    height={720}
-    numberOfPieces={60}
-    recycle={false}
-    gravity={0.1}
-    wind={0.01}
-    friction={0.95}
-    initialVelocityX={1}
-    initialVelocityY={2}
-    colors={["#aaaaaa", "#999999", "#cccccc", "#dddddd"]}
-    opacity={0.6}
-  />
             </>
           )}
         </AnimatePresence>
