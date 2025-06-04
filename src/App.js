@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { SiTether } from "react-icons/si";
 
 const coins = ["BTC", "ETH", "USDT", "BNB", "ADA", "XRP"];
 
@@ -38,32 +39,33 @@ function App() {
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
               Anonymous Web3.0 Crypto Exchange
             </h1>
-        <div className="flex items-center justify-center mt-4 space-x-2">
-  <motion.div
-    initial={{ x: -60 }}
-    animate={{ x: 0 }}
-    transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-  >
-    <FaBitcoin className="text-yellow-400 text-2xl" />
-  </motion.div>
+{/* Animation */}
+        <div className="flex items-center justify-center mt-6 space-x-10">
+          <motion.div
+            initial={{ x: -100, opacity: 1 }}
+            animate={{ x: 0, opacity: 0 }}
+            transition={{ duration: 1.5 }}
+          >
+            <FaBitcoin className="text-yellow-400 text-4xl" />
+          </motion.div>
 
-  <motion.div
-    initial={{ scale: 0.8 }}
-    animate={{ scale: 1.1 }}
-    transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
-    className="text-white text-sm"
-  >
-   
-  </motion.div>
+          <motion.div
+            initial={{ x: 100, opacity: 1 }}
+            animate={{ x: 0, opacity: 0 }}
+            transition={{ duration: 1.5 }}
+          >
+            <FaEthereum className="text-blue-400 text-4xl" />
+          </motion.div>
 
-  <motion.div
-    initial={{ x: 60 }}
-    animate={{ x: 0 }}
-    transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-  >
-    <FaEthereum className="text-blue-400 text-2xl" />
-  </motion.div>
-</div>
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 1.5, duration: 0.5 }}
+          >
+            <SiTether className="text-green-400 text-4xl" />
+          </motion.div>
+        </div>
+      </div>
             <p className="text-gray-400 text-lg">
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
