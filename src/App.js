@@ -57,48 +57,48 @@ const handleSwap = () => {
               Anonymous Web3.0 Crypto Exchange
             </h1>
         <p>
- <div className="relative w-full flex flex-col items-center my-6">         
-        <AnimatePresence initial={false}>
-          {!showUSDT && (
-            <>
-              <motion.div
-                key={`btc-${trigger}`}
-                initial={{ x: -150 }}
-                animate={{ x: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.4 }}
-                className="absolute left-1/3 top-0"
-              >
-                <FaBitcoin className="text-yellow-400 text-6xl" />
-              </motion.div>
-              <motion.div
-                key={`xmr-${trigger}`}
-                initial={{ x: 150 }}
-                animate={{ x: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.4 }}
-                className="absolute right-1/3 top-0"
-              >
-                <SiMonero className="text-orange-500 text-6xl" />
-              </motion.div>
-            </>
-          )}
+<div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center">
+  <AnimatePresence initial={false}>
+    {!showUSDT && (
+      <>
+        <motion.div
+          key={`btc-${trigger}`}
+          initial={{ x: -150 }}
+          animate={{ x: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.4 }}
+          className="relative mr-16"
+        >
+          <FaBitcoin className="text-yellow-400 text-6xl opacity-30" />
+        </motion.div>
 
-          {showUSDT && (
-            <>
-              <motion.div
-                key={`boom-${trigger}`}
-                initial={{ scale: 0 }}
-                animate={{ scale: [1.3, 1.6, 1.0] }}
-                transition={{ duration: 0.6 }}
-                className="text-green-400 text-6xl"
-              >
-                <SiTether className="drop-shadow-glow" />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-      </div>
+        <motion.div
+          key={`xmr-${trigger}`}
+          initial={{ x: 150 }}
+          animate={{ x: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.4 }}
+          className="relative ml-16"
+        >
+          <SiMonero className="text-orange-500 text-6xl opacity-30" />
+        </motion.div>
+      </>
+    )}
+
+    {showUSDT && (
+      <motion.div
+        key={`boom-${trigger}`}
+        initial={{ scale: 0 }}
+        animate={{ scale: [1.3, 1.6, 1.0] }}
+        transition={{ duration: 0.6 }}
+        className="relative"
+      >
+        <SiTether className="text-green-400 text-6xl opacity-30 drop-shadow-glow" />
+      </motion.div>
+    )}
+  </AnimatePresence>
+</div>
+
             </p>
             <p className="text-gray-400 text-lg">
          {/* Coin Collision Animation */}
