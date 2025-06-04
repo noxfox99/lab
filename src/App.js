@@ -46,59 +46,7 @@ const handleSwap = () => {
 </header>
 
 
-<div className="fixed inset-0 z-30 pointer-events-none flex items-center justify-center">
-  <AnimatePresence initial={false}>
-    {!showUSDT && (
-      <>
-        <motion.div
-          key={`btc-${trigger}`}
-          initial={{ x: -200 }}
-          animate={{ x: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.4 }}
-          className="mx-10"
-        >
-          <FaBitcoin className="text-yellow-400 text-7xl opacity-30" />
-        </motion.div>
 
-        <motion.div
-          key={`xmr-${trigger}`}
-          initial={{ x: 200 }}
-          animate={{ x: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.4 }}
-          className="mx-10"
-        >
-          <SiMonero className="text-orange-500 text-7xl opacity-30" />
-        </motion.div>
-      </>
-    )}
-
-    {showUSDT && (
-      <motion.div
-        key={`usdt-${trigger}`}
-        initial={{ scale: 0 }}
-        animate={{ scale: [1.3, 1.6, 1.0] }}
-        transition={{ duration: 0.6 }}
-      >
-        <SiTether className="text-green-400 text-7xl opacity-30 drop-shadow-glow" />
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          numberOfPieces={60}
-          recycle={false}
-          gravity={0.1}
-          wind={0.01}
-          friction={0.95}
-          initialVelocityX={1}
-          initialVelocityY={2}
-          colors={["#aaaaaa", "#999999", "#cccccc", "#dddddd"]}
-          opacity={0.6}
-        />
-      </motion.div>
-    )}
-  </AnimatePresence>
-</div>
 
       {/* Main content */}
       <main className="flex flex-grow items-center justify-center px-4 py-8">
@@ -109,7 +57,47 @@ const handleSwap = () => {
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
               Anonymous Web3.0 Crypto Exchange
             </h1>
-        
+         {/* 🎯 Coin Animation directly behind H1 */}
+  <div className="absolute inset-0 flex justify-center items-center z-0 pointer-events-none">
+    <AnimatePresence initial={false}>
+      {!showUSDT && (
+        <>
+          <motion.div
+            key={`btc-${trigger}`}
+            initial={{ x: -120 }}
+            animate={{ x: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.4 }}
+            className="mx-10"
+          >
+            <FaBitcoin className="text-yellow-400 text-6xl opacity-30" />
+          </motion.div>
+
+          <motion.div
+            key={`xmr-${trigger}`}
+            initial={{ x: 120 }}
+            animate={{ x: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.4 }}
+            className="mx-10"
+          >
+            <SiMonero className="text-orange-500 text-6xl opacity-30" />
+          </motion.div>
+        </>
+      )}
+
+      {showUSDT && (
+        <motion.div
+          key={`usdt-${trigger}`}
+          initial={{ scale: 0 }}
+          animate={{ scale: [1.3, 1.6, 1.0] }}
+          transition={{ duration: 0.6 }}
+        >
+          <SiTether className="text-green-400 text-6xl opacity-30 drop-shadow-glow" />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
             <p className="text-gray-400 text-lg">
          {/* Coin Collision Animation */}
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
