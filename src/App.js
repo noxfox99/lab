@@ -42,9 +42,9 @@ function App() {
 
           {/* Exchange Form */}
           <div className="bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-md border border-gray-700 space-y-6">
-            <h2 className="text-xl font-semibold text-center text-white">
-              Please fill in transaction details
-            </h2>
+            <h2 className="text-xl md:text-2xl font-semibold text-white tracking-wide text-center shadow-md">
+  Пожалуйста, укажите детали транзакции
+</h2>
 
             <div className="flex justify-between items-center space-x-4">
               <div className="flex-1">
