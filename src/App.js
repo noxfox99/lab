@@ -62,8 +62,8 @@ const handleSwap = () => {
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
                 
             </p>
-                  <div className="absolute inset-0 z-10 pointer-events-none flex items-start justify-center pt-20">
-  <AnimatePresence initial={false}>
+<div className="fixed inset-0 z-30 pointer-events-none flex items-center justify-center">
+   <AnimatePresence initial={false}>
     {!showUSDT && (
       <>
         <motion.div
