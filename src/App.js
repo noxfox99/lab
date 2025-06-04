@@ -23,7 +23,7 @@ const handleSwap = () => {
     setTimeout(() => setAnimateCoins(true), 50); // Restart animation
 
     // Play sound
-    const coinSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_b69ad43a2e.mp3");
+const coinSound = new Audio("https://assets.mixkit.co/sfx/download/mixkit-arcade-retro-changing-tab-206.wav");
     coinSound.play();
   };
 
