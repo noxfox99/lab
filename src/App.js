@@ -56,8 +56,11 @@ const handleSwap = () => {
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
               Anonymous Web3.0 Crypto Exchange
             </h1>
-        <p>
-<div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center">
+        
+            <p className="text-gray-400 text-lg">
+         {/* Coin Collision Animation */}
+              Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
+                <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center">
   <AnimatePresence initial={false}>
     {!showUSDT && (
       <>
@@ -98,11 +101,6 @@ const handleSwap = () => {
     )}
   </AnimatePresence>
 </div>
-
-            </p>
-            <p className="text-gray-400 text-lg">
-         {/* Coin Collision Animation */}
-              Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
           </div>
           {/* Exchange Form */}
