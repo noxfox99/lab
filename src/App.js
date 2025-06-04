@@ -20,9 +20,11 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col">
       
       {/* Header */}
-      <header className="w-full px-6 py-4 bg-gray-800/80 border-b border-gray-700 text-left text-2xl font-bold text-white shadow-sm">
-  Labirint
+     <header className="w-full px-6 py-4 bg-gray-800/80 border-b border-gray-700 text-left shadow-sm flex items-center space-x-3">
+  <img src="/logo.png" alt="Labirint Logo" className="h-8 w-8 object-contain" />
+  <span className="text-2xl font-bold text-white">Labirint</span>
 </header>
+
 
       {/* Main content */}
       <main className="flex flex-grow items-center justify-center px-4 py-8">
