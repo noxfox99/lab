@@ -58,6 +58,7 @@ const handleSwap = () => {
             </h1>
  {/* Coin Collision Animation */}
       <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+         <p className="text-gray-400 text-lg">
         <AnimatePresence initial={false}>
           {!showUSDT && (
             <>
@@ -99,6 +100,7 @@ const handleSwap = () => {
           )}
         </AnimatePresence>
       </div>
+            </p>
             <p className="text-gray-400 text-lg">
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
