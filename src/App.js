@@ -17,93 +17,115 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col items-center justify-between">
-      <main className="flex-grow flex items-center justify-center w-full p-4">
-        <div className="bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-md space-y-6 border border-gray-700">
-          <h2 className="text-xl font-semibold text-center text-white">
-            Please fill in transaction details
-          </h2>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col">
+      
+      {/* Header */}
+      <header className="w-full px-6 py-4 bg-transparent text-left text-2xl font-bold text-white">
+        Labirint
+      </header>
 
-          <div className="flex justify-between items-center space-x-4">
-            <div className="flex-1">
-              <label className="block text-sm text-gray-300 mb-1">You Send</label>
-              <input
-                type="number"
-                className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-                placeholder="Amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-300 mb-1">Currency</label>
-              <select
-                className="bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-                value={fromCoin}
-                onChange={(e) => setFromCoin(e.target.value)}
-              >
-                {coins.map((coin) => (
-                  <option key={coin} value={coin}>
-                    {coin}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="text-xs text-gray-400">
-            Estimated rate: 1 {fromCoin} ≈ {rate} {toCoin}
-          </div>
-
-          <div className="flex justify-between items-center space-x-4">
-            <div className="flex-1">
-              <label className="block text-sm text-gray-300 mb-1">You Get</label>
-              <input
-                type="text"
-                className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-                value={received}
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-300 mb-1">Currency</label>
-              <select
-                className="bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-                value={toCoin}
-                onChange={(e) => setToCoin(e.target.value)}
-              >
-                {coins.map((coin) => (
-                  <option key={coin} value={coin}>
-                    {coin}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-300 mb-1">Recipient Wallet</label>
-            <input
-              type="text"
-              className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-              placeholder="Enter the ETH payout address"
-              value={wallet}
-              onChange={(e) => setWallet(e.target.value)}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              FIO protocol names are supported
+      {/* Main content */}
+      <main className="flex flex-grow items-center justify-center px-4 py-8">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-12 w-full max-w-6xl">
+          
+          {/* Left Side Message */}
+          <div className="mb-10 lg:mb-0 text-center lg:text-left max-w-md">
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
+              Limitless Web3.0 Crypto Exchange
+            </h1>
+            <p className="text-gray-400 text-lg">
+              Buy, sell, swap crypto: fast & secure
             </p>
           </div>
 
-          <button
-            onClick={handleSwap}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded font-semibold transition"
-          >
-            Exchange Now
-          </button>
+          {/* Exchange Form */}
+          <div className="bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-md border border-gray-700 space-y-6">
+            <h2 className="text-xl font-semibold text-center text-white">
+              Please fill in transaction details
+            </h2>
+
+            <div className="flex justify-between items-center space-x-4">
+              <div className="flex-1">
+                <label className="block text-sm text-gray-300 mb-1">You Send</label>
+                <input
+                  type="number"
+                  className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
+                  placeholder="Amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">Currency</label>
+                <select
+                  className="bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
+                  value={fromCoin}
+                  onChange={(e) => setFromCoin(e.target.value)}
+                >
+                  {coins.map((coin) => (
+                    <option key={coin} value={coin}>
+                      {coin}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="text-xs text-gray-400">
+              Estimated rate: 1 {fromCoin} ≈ {rate} {toCoin}
+            </div>
+
+            <div className="flex justify-between items-center space-x-4">
+              <div className="flex-1">
+                <label className="block text-sm text-gray-300 mb-1">You Get</label>
+                <input
+                  type="text"
+                  className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
+                  value={received}
+                  readOnly
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">Currency</label>
+                <select
+                  className="bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
+                  value={toCoin}
+                  onChange={(e) => setToCoin(e.target.value)}
+                >
+                  {coins.map((coin) => (
+                    <option key={coin} value={coin}>
+                      {coin}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">Recipient Wallet</label>
+              <input
+                type="text"
+                className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
+                placeholder="Enter the ETH payout address"
+                value={wallet}
+                onChange={(e) => setWallet(e.target.value)}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                FIO protocol names are supported
+              </p>
+            </div>
+
+            <button
+              onClick={handleSwap}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded font-semibold transition"
+            >
+              Exchange Now
+            </button>
+          </div>
         </div>
       </main>
 
+      {/* Footer */}
       <footer className="w-full py-4 bg-transparent text-center text-gray-500 text-xs">
         © LABIRINT 2025 - Anonumys SWAP
       </footer>
