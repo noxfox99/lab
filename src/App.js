@@ -53,10 +53,10 @@ const handleSwap = () => {
         <div className="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-12 w-full max-w-6xl">
           
           {/* Left Side Message */}
-         <div className="relative mb-4">
-  <h1 className="relative z-10 text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg">
-    Anonymous Web3.0 Crypto Exchange
-  </h1>
+          <div className="mb-10 lg:mb-0 text-center lg:text-left max-w-md">
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
+              Anonymous Web3.0 Crypto Exchange
+            </h1>
          {/* 🎯 Coin Animation directly behind H1 */}
   <div className="absolute inset-0 flex justify-center items-center z-0 pointer-events-none">
     <AnimatePresence initial={false}>
