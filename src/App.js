@@ -13,11 +13,18 @@ function App() {
   const [rate, setRate] = useState("0.0");
   const [received, setReceived] = useState("0.0");
   const [wallet, setWallet] = useState("");
+  const [animateCoins, setAnimateCoins] = useState(false);
 
-  const handleSwap = () => {
-    const mockRate = 39.41; // Simulated rate
+const handleSwap = () => {
+    const mockRate = 15.0;
     setRate(mockRate);
-    setReceived((amount * mockRate).toFixed(8));
+    setReceived((amount * mockRate).toFixed(2));
+    setAnimateCoins(false); // Reset
+    setTimeout(() => setAnimateCoins(true), 50); // Restart animation
+
+    // Play sound
+    const coinSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_b69ad43a2e.mp3");
+    coinSound.play();
   };
 
   return (
@@ -40,32 +47,34 @@ function App() {
               Anonymous Web3.0 Crypto Exchange
             </h1>
 {/* Animation */}
-        <div className="flex items-center justify-center mt-6 space-x-10">
-          <motion.div
-            initial={{ x: -100, opacity: 1 }}
-            animate={{ x: 0, opacity: 0 }}
-            transition={{ duration: 1.5 }}
-          >
-            <FaBitcoin className="text-yellow-400 text-4xl" />
-          </motion.div>
+          {/* 🔁 Animation - Only if triggered */}
+        {animateCoins && (
+          <div className="flex items-center justify-center mt-6 space-x-10">
+            <motion.div
+              initial={{ x: -100, opacity: 1 }}
+              animate={{ x: 0, opacity: 0 }}
+              transition={{ duration: 1.5 }}
+            >
+              <FaBitcoin className="text-yellow-400 text-4xl" />
+            </motion.div>
 
-          <motion.div
-            initial={{ x: 100, opacity: 1 }}
-            animate={{ x: 0, opacity: 0 }}
-            transition={{ duration: 1.5 }}
-          >
-            <FaEthereum className="text-blue-400 text-4xl" />
-          </motion.div>
+            <motion.div
+              initial={{ x: 100, opacity: 1 }}
+              animate={{ x: 0, opacity: 0 }}
+              transition={{ duration: 1.5 }}
+            >
+              <FaEthereum className="text-blue-400 text-4xl" />
+            </motion.div>
 
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.5 }}
-          >
-            <SiTether className="text-green-400 text-4xl" />
-          </motion.div>
-        
-      </div>
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: [0, 1.4, 1], opacity: 1, boxShadow: "0 0 15px #0f0" }}
+              transition={{ delay: 1.5, duration: 0.6 }}
+            >
+              <SiTether className="text-green-400 text-5xl drop-shadow-glow" />
+            </motion.div>
+          </div>
+        )}
             <p className="text-gray-400 text-lg">
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
