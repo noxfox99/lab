@@ -5,14 +5,14 @@ import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { SiTether, SiMonero } from "react-icons/si";
 import Confetti from "react-confetti";
 
-const coins = ["BTC", "ETH", "USDT", "BNB", "ADA", "XRP"];
+const coins = ["BTC", "XMR", "USDT", "BNB", "ADA", "XRP"];
 
 function App() {
   const [fromCoin, setFromCoin] = useState("BTC");
-  const [toCoin, setToCoin] = useState("ETH");
-  const [amount, setAmount] = useState("");
-  const [rate, setRate] = useState("0.0");
-  const [received, setReceived] = useState("0.0");
+  const [toCoin, setToCoin] = useState("USDT");
+  const [amount, setAmount] = useState("1");
+  const [rate, setRate] = useState("105000");
+  const [received, setReceived] = useState("104950");
   const [wallet, setWallet] = useState("");
   const [animateCoins, setAnimateCoins] = useState(false);
   const [showUSDT, setShowUSDT] = useState(false);
