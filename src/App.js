@@ -60,7 +60,10 @@ const handleSwap = () => {
             <p className="text-gray-400 text-lg">
          {/* Coin Collision Animation */}
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
-                <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center">
+                
+            </p>
+          </div>
+  <div className="absolute inset-0 z-10 pointer-events-none flex items-start justify-center pt-20">
   <AnimatePresence initial={false}>
     {!showUSDT && (
       <>
@@ -70,7 +73,7 @@ const handleSwap = () => {
           animate={{ x: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.4 }}
-          className="relative mr-16"
+          className="mx-8"
         >
           <FaBitcoin className="text-yellow-400 text-6xl opacity-30" />
         </motion.div>
@@ -81,7 +84,7 @@ const handleSwap = () => {
           animate={{ x: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.4 }}
-          className="relative ml-16"
+          className="mx-8"
         >
           <SiMonero className="text-orange-500 text-6xl opacity-30" />
         </motion.div>
@@ -90,19 +93,30 @@ const handleSwap = () => {
 
     {showUSDT && (
       <motion.div
-        key={`boom-${trigger}`}
+        key={`usdt-${trigger}`}
         initial={{ scale: 0 }}
         animate={{ scale: [1.3, 1.6, 1.0] }}
         transition={{ duration: 0.6 }}
-        className="relative"
       >
         <SiTether className="text-green-400 text-6xl opacity-30 drop-shadow-glow" />
+        <Confetti
+          width={1280}
+          height={720}
+          numberOfPieces={60}
+          recycle={false}
+          gravity={0.1}
+          wind={0.01}
+          friction={0.95}
+          initialVelocityX={1}
+          initialVelocityY={2}
+          colors={["#aaaaaa", "#999999", "#cccccc", "#dddddd"]}
+          opacity={0.6}
+        />
       </motion.div>
     )}
   </AnimatePresence>
 </div>
-            </p>
-          </div>
+
           {/* Exchange Form */}
           <div className="bg-gray-900 bg-opacity-80 p-8 rounded-xl shadow-xl w-full max-w-md border border-gray-700 space-y-6">
             <h2 className="text-xl md:text-2xl font-semibold text-white tracking-wide text-center shadow-md">
