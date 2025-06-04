@@ -56,7 +56,7 @@ const handleSwap = () => {
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
               Anonymous Web3.0 Crypto Exchange
         {/* Coin Collision Animation */}
-      <div className="relative w-full flex flex-col items-center my-6">
+      <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
         <AnimatePresence initial={false}>
           {!showUSDT && (
             <>
