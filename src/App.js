@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { SiTether, SiMonero } from "react-icons/si";
+import Confetti from "react-confetti";
 
 const coins = ["BTC", "ETH", "USDT", "BNB", "ADA", "XRP"];
 
@@ -14,7 +15,9 @@ function App() {
   const [received, setReceived] = useState("0.0");
   const [wallet, setWallet] = useState("");
   const [animateCoins, setAnimateCoins] = useState(false);
-
+  const [showUSDT, setShowUSDT] = useState(false);
+  const [trigger, setTrigger] = useState(0);
+  
 const handleSwap = () => {
     const mockRate = 15.0;
     setRate(mockRate);
@@ -22,9 +25,9 @@ const handleSwap = () => {
     setAnimateCoins(false); // Reset
     setTimeout(() => setAnimateCoins(true), 50); // Restart animation
 
-    // Play sound
-const coinSound = new Audio("https://assets.mixkit.co/sfx/download/mixkit-arcade-retro-changing-tab-206.wav");
-    coinSound.play();
+    setShowUSDT(false);
+    setTrigger((prev) => prev + 1);
+    setTimeout(() => setShowUSDT(true), 1400);
   };
 
   return (
@@ -46,30 +49,50 @@ const coinSound = new Audio("https://assets.mixkit.co/sfx/download/mixkit-arcade
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
               Anonymous Web3.0 Crypto Exchange
             </h1>
-{/* Animation */}
-          {/* 🔁 Animation - Only if triggered */}
-     <div className="flex items-center justify-center mt-6 space-x-10">
-  <motion.div
-    animate={{ x: [0, -20, 0], rotate: [0, 15, -15, 0] }}
-    transition={{ duration: 2, repeat: Infinity }}
-  >
-    <FaBitcoin className="text-yellow-400 text-4xl" />
-  </motion.div>
+{/* Coin Collision Animation */}
+      <div className="relative w-full flex flex-col items-center my-6">
+        <AnimatePresence initial={false}>
+          {!showUSDT && (
+            <>
+              <motion.div
+                key={`btc-${trigger}`}
+                initial={{ x: -150 }}
+                animate={{ x: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.4 }}
+                className="absolute left-1/3 top-0"
+              >
+                <FaBitcoin className="text-yellow-400 text-6xl" />
+              </motion.div>
+              <motion.div
+                key={`xmr-${trigger}`}
+                initial={{ x: 150 }}
+                animate={{ x: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.4 }}
+                className="absolute right-1/3 top-0"
+              >
+                <SiMonero className="text-orange-500 text-6xl" />
+              </motion.div>
+            </>
+          )}
 
-  <motion.div
-    animate={{ scale: [1, 1.3, 1], rotate: [0, 360, 0] }}
-    transition={{ duration: 2, repeat: Infinity }}
-  >
-    <SiMonero className="text-orange-500 text-5xl" />
-  </motion.div>
-
-  <motion.div
-    animate={{ x: [0, 20, 0], rotate: [0, -15, 15, 0] }}
-    transition={{ duration: 2, repeat: Infinity }}
-  >
-    <SiTether className="text-green-400 text-4xl drop-shadow-glow" />
-  </motion.div>
-</div>
+          {showUSDT && (
+            <>
+              <motion.div
+                key={`boom-${trigger}`}
+                initial={{ scale: 0 }}
+                animate={{ scale: [1.3, 1.6, 1.0] }}
+                transition={{ duration: 0.6 }}
+                className="text-green-400 text-6xl"
+              >
+                <SiTether className="drop-shadow-glow" />
+              </motion.div>
+              <Confetti numberOfPieces={60} recycle={false} />
+            </>
+          )}
+        </AnimatePresence>
+      </div>
             <p className="text-gray-400 text-lg">
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
