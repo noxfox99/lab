@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { SiTether, SiMonero } from "react-icons/si";
