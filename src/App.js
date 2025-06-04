@@ -20,9 +20,9 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col">
       
       {/* Header */}
-      <header className="w-full px-6 py-4 bg-transparent text-left text-2xl font-bold text-white">
-        Labirint
-      </header>
+      <header className="w-full px-6 py-4 bg-gray-800/80 border-b border-gray-700 text-left text-2xl font-bold text-white shadow-sm">
+  Labirint
+</header>
 
       {/* Main content */}
       <main className="flex flex-grow items-center justify-center px-4 py-8">
@@ -31,10 +31,10 @@ function App() {
           {/* Left Side Message */}
           <div className="mb-10 lg:mb-0 text-center lg:text-left max-w-md">
             <h1 className="text-4xl lg:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
-              Limitless Web3.0 Crypto Exchange
+              Anonymous Web3.0 Crypto Exchange
             </h1>
             <p className="text-gray-400 text-lg">
-              Buy, sell, swap crypto: fast & secure
+              Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
             </p>
           </div>
 
@@ -111,7 +111,7 @@ function App() {
                 onChange={(e) => setWallet(e.target.value)}
               />
               <p className="text-xs text-gray-500 mt-1">
-                FIO protocol names are supported
+                ENS protocol names are supported
               </p>
             </div>
 
@@ -119,7 +119,7 @@ function App() {
               onClick={handleSwap}
               className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded font-semibold transition"
             >
-              Exchange Now
+            Обменять
             </button>
           </div>
         </div>
