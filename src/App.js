@@ -64,7 +64,7 @@ function App() {
           >
             <SiTether className="text-green-400 text-4xl" />
           </motion.div>
-        </div>
+        
       </div>
             <p className="text-gray-400 text-lg">
               Покупайте, продавайте и обменивайте криптовалюту: быстро, aнонимно и безопасно
