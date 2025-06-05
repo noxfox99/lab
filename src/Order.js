@@ -1,108 +1,170 @@
 import React, { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import {
+  FaBitcoin,
+  FaEthereum,
+  FaRegEdit,
+} from "react-icons/fa";
+import {
+  SiTether,
+  SiMonero,
+  SiBinance,
+  SiCardano,
+  SiRipple,
+} from "react-icons/si";
+import { motion, AnimatePresence } from "framer-motion";
 
-const ordersData = [
+const orders = [
   {
-    id: "001",
+    id: "ORD-001",
     from: "BTC",
     to: "XMR",
-    amount: "0.5",
+    amount: "1.5",
     rate: "105000",
-    originWallet: "bc1qexampleorigin",
-    destinationWallet: "48xmrExampleDest",
     status: "Paid",
+    origin: "bc1qxyzabc123",
+    destination: "48XyzMoneroAddress",
   },
   {
-    id: "002",
+    id: "ORD-002",
     from: "ETH",
     to: "USDT",
-    amount: "1.2",
-    rate: "1800",
-    originWallet: "0xexampleorigin",
-    destinationWallet: "Tether123DestWallet",
+    amount: "2.3",
+    rate: "3200",
     status: "Pending",
+    origin: "0x1234abc...",
+    destination: "TetherWallet123",
   },
 ];
 
-function Orders() {
-  const [expandedOrderId, setExpandedOrderId] = useState(null);
+const getCoinIcon = (symbol) => {
+  const iconClass = "inline-block mr-2 text-xl align-middle";
+  switch (symbol) {
+    case "BTC":
+      return <FaBitcoin className={`text-yellow-400 ${iconClass}`} />;
+    case "ETH":
+      return <FaEthereum className={`text-blue-400 ${iconClass}`} />;
+    case "USDT":
+      return <SiTether className={`text-green-400 ${iconClass}`} />;
+    case "XMR":
+      return <SiMonero className={`text-orange-400 ${iconClass}`} />;
+    case "BNB":
+      return <SiBinance className={`text-yellow-300 ${iconClass}`} />;
+    case "ADA":
+      return <SiCardano className={`text-blue-300 ${iconClass}`} />;
+    case "XRP":
+      return <SiRipple className={`text-indigo-300 ${iconClass}`} />;
+    default:
+      return null;
+  }
+};
 
-  const toggleExpand = (id) => {
-    setExpandedOrderId(expandedOrderId === id ? null : id);
-  };
-
-  const getRowColor = (status) =>
-    status === "Paid" ? "bg-green-100 text-green-900" : "bg-orange-100 text-orange-900";
+export default function Orders() {
+  const [expandedRow, setExpandedRow] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex">
+    <div className="min-h-screen flex bg-black text-white font-sans">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 border-r border-gray-800 p-6 space-y-4">
-        <h2 className="text-xl font-bold mb-4">Меню</h2>
-        <nav className="space-y-2">
-          <a href="#" className="block text-white hover:text-green-400">
-            История заказов
-          </a>
-          <a href="#" className="block text-white hover:text-green-400">
-            Настройки
-          </a>
+      <aside className="w-64 bg-gray-900 p-6 border-r border-gray-800 shadow-2xl shadow-green-500/10">
+        <h2 className="text-xl font-bold mb-6">Панель</h2>
+        <nav className="space-y-4">
+          <button className="w-full text-left px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 transition">История заказов</button>
+          <button className="w-full text-left px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 transition">Настройки</button>
         </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-8">
+      {/* Main content */}
+      <main className="flex-1 p-8 bg-gradient-to-b from-gray-900 via-gray-950 to-black">
         <h1 className="text-3xl font-bold mb-6">История заказов</h1>
 
-        <div className="overflow-x-auto rounded-lg border border-gray-800 shadow-md">
-          <table className="min-w-full table-auto text-sm text-left">
-            <thead className="bg-gray-800 text-gray-300 uppercase">
+        <div className="overflow-x-auto rounded-xl shadow-xl shadow-green-500/10 border border-gray-700">
+          <table className="min-w-full table-auto bg-gray-900 text-white">
+            <thead className="bg-gray-800 border-b border-gray-700">
               <tr>
-                <th className="px-4 py-3">ID заказа</th>
-                <th className="px-4 py-3">Отправка</th>
-                <th className="px-4 py-3">Получение</th>
-                <th className="px-4 py-3">Сумма</th>
-                <th className="px-4 py-3">Курс</th>
-                <th className="px-4 py-3">Статус</th>
-                <th className="px-4 py-3">Действие</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">ID заказа</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">От</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Кому</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Сумма</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Курс</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Статус</th>
+                <th className="px-4 py-3 text-right text-sm text-gray-300">Действие</th>
               </tr>
             </thead>
             <tbody>
-              {ordersData.map((order) => (
+              {orders.map((order, idx) => (
                 <React.Fragment key={order.id}>
-                  <tr className={`${getRowColor(order.status)} border-b border-gray-700`}>
-                    <td className="px-4 py-3 font-mono">{order.id}</td>
-                    <td className="px-4 py-3">{order.from}</td>
-                    <td className="px-4 py-3">{order.to}</td>
+                  <tr
+                    className={`border-b border-gray-700 transition ${
+                      order.status === "Paid"
+                        ? "bg-green-900/10"
+                        : "bg-orange-900/10"
+                    }`}
+                  >
+                    <td className="px-4 py-3">{order.id}</td>
+                    <td className="px-4 py-3 flex items-center">
+                      {getCoinIcon(order.from)}
+                      {order.from}
+                    </td>
+                    <td className="px-4 py-3 flex items-center">
+                      {getCoinIcon(order.to)}
+                      {order.to}
+                    </td>
                     <td className="px-4 py-3">{order.amount}</td>
                     <td className="px-4 py-3">{order.rate}</td>
-                    <td className="px-4 py-3 font-semibold">{order.status === "Paid" ? "Оплачен" : "В ожидании"}</td>
                     <td className="px-4 py-3">
-                      <button
-                        onClick={() => toggleExpand(order.id)}
-                        className="text-gray-600 hover:text-white"
+                      <span
+                        className={`px-2 py-1 rounded text-xs font-semibold ${
+                          order.status === "Paid"
+                            ? "bg-green-700 text-white"
+                            : "bg-orange-600 text-white"
+                        }`}
                       >
-                        <FaEdit />
+                        {order.status === "Paid" ? "Оплачен" : "В ожидании"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() =>
+                          setExpandedRow(expandedRow === idx ? null : idx)
+                        }
+                        className="text-gray-400 hover:text-white transition"
+                      >
+                        <FaRegEdit />
                       </button>
                     </td>
                   </tr>
-                  {expandedOrderId === order.id && (
-                    <tr className="bg-gray-900 border-b border-gray-700">
-                      <td colSpan="7" className="px-6 py-4">
-                        <div className="space-y-2 text-sm">
-                          <div><strong>Кошелёк отправителя:</strong> {order.originWallet}</div>
-                          <div><strong>Кошелёк получателя:</strong> {order.destinationWallet}</div>
-                          <div className="mt-3 space-x-2">
-                            <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
-                              Отменить
-                            </button>
-                            <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
-                              Отметить как оплачено
-                            </button>
+
+                  {/* Expanded row */}
+                  <AnimatePresence>
+                    {expandedRow === idx && (
+                      <motion.tr
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="bg-gray-800/60"
+                      >
+                        <td colSpan="7" className="px-4 py-4">
+                          <div className="text-sm space-y-2">
+                            <div>
+                              <span className="text-gray-400 mr-2">Origin Wallet:</span>
+                              <span className="text-white font-mono">{order.origin}</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400 mr-2">Destination Wallet:</span>
+                              <span className="text-white font-mono">{order.destination}</span>
+                            </div>
+                            <div className="mt-3 flex space-x-3">
+                              <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+                                Отменить
+                              </button>
+                              <button className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">
+                                Отметить как Оплачено
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+                        </td>
+                      </motion.tr>
+                    )}
+                  </AnimatePresence>
                 </React.Fragment>
               ))}
             </tbody>
@@ -112,5 +174,3 @@ function Orders() {
     </div>
   );
 }
-
-export default Orders;
