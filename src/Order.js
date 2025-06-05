@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const orders = [
   {
     id: "ORD-001",
+    time: "2025-06-03 14:21",
     from: "BTC",
     to: "XMR",
     amount: "1.5",
@@ -26,6 +27,7 @@ const orders = [
   },
   {
     id: "ORD-002",
+    time: "2025-06-03 15:10",
     from: "ETH",
     to: "USDT",
     amount: "2.3",
@@ -81,6 +83,7 @@ export default function Orders() {
             <thead className="bg-gray-800 border-b border-gray-700">
               <tr>
                 <th className="px-4 py-3 text-left text-sm text-gray-300">ID заказа</th>
+                <th className="px-4 py-3 text-left text-sm text-gray-300">Время</th>
                 <th className="px-4 py-3 text-left text-sm text-gray-300">От</th>
                 <th className="px-4 py-3 text-left text-sm text-gray-300">Кому</th>
                 <th className="px-4 py-3 text-left text-sm text-gray-300">Сумма</th>
@@ -100,6 +103,7 @@ export default function Orders() {
                     }`}
                   >
                     <td className="px-4 py-3">{order.id}</td>
+                    <td className="px-4 py-3">{order.time}</td>
                     <td className="px-4 py-3 flex items-center">
                       {getCoinIcon(order.from)}
                       {order.from}
@@ -142,7 +146,7 @@ export default function Orders() {
                         exit={{ opacity: 0, y: -10 }}
                         className="bg-gray-800/60"
                       >
-                        <td colSpan="7" className="px-4 py-4">
+                        <td colSpan="8" className="px-4 py-4">
                           <div className="text-sm space-y-2">
                             <div>
                               <span className="text-gray-400 mr-2">Origin Wallet:</span>
