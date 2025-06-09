@@ -4,9 +4,31 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crypto Swap UI</title>
+    <meta name="description" content="Cryptocurrency exchange with real-time rates" />
+    <title>Crypto Swap — Instant Exchange</title>
+    
+    <!-- Подключение шрифтов (пример) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Для мобильной адаптации -->
+    <meta name="theme-color" content="#000000" />
   </head>
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <!-- Контейнер для React-приложения -->
     <div id="root"></div>
+
+    <!-- Загрузка API только если нужно (например, для статичных частей) -->
+    <script>
+      // Пример: загрузка курсов для статичного футера (если не используете React-компонент)
+      if (window.location.pathname === '/') {
+        fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Global rates loaded:', data);
+          });
+      }
+    </script>
   </body>
 </html>
