@@ -230,7 +230,7 @@ function App() {
                     1 {fromCoin.symbol} = {rate} {toCoin.symbol}
                   </div>
                   <div className="text-xs text-center text-green-400 mt-1">
-                    {error ? "CoinGecko" : "Binance"} • Обновляется каждые 30 сек
+                    {error ? "CoinGecko" : ""} • Обновляется каждые 30 сек
                   </div>
                 </>
               )}
