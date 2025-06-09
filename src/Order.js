@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FaBitcoin, FaEthereum, FaRegEdit, FaCog, FaHistory, FaLock, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { SiTether, SiBinance, SiMonero, SiCardano, SiRipple } from "react-icons/si";
 
-// Иконки для криптовалют
 const coinIcons = {
   BTC: <FaBitcoin className="text-yellow-400" />,
   ETH: <FaEthereum className="text-purple-400" />,
@@ -13,7 +12,6 @@ const coinIcons = {
   XRP: <SiRipple className="text-indigo-400" />,
 };
 
-// Тестовые данные заказов
 const orders = [
   {
     id: "ORD12345",
@@ -39,7 +37,6 @@ const orders = [
   },
 ];
 
-// Компонент формы авторизации
 const AuthForm = ({ onLogin, authError, loading }) => {
   const [credentials, setCredentials] = useState({
     login: "",
@@ -57,82 +54,83 @@ const AuthForm = ({ onLogin, authError, loading }) => {
   };
 
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 w-full max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <FaLock className="text-4xl text-yellow-500 mx-auto mb-3" />
-        <h2 className="text-2xl font-bold">Доступ к настройкам</h2>
-        <p className="text-gray-400 mt-1">Требуется авторизация администратора</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+      <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 w-full max-w-md">
+        <div className="text-center mb-6">
+          <FaLock className="text-4xl text-yellow-500 mx-auto mb-3" />
+          <h2 className="text-2xl font-bold">Авторизация</h2>
+          <p className="text-gray-400 mt-1">Введите данные администратора</p>
+        </div>
+        
+        {authError && (
+          <div className="bg-red-900/80 text-red-200 p-3 rounded text-sm mb-4">
+            {authError}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-gray-300 mb-1">Логин</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaUser className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                name="login"
+                value={credentials.login}
+                onChange={handleChange}
+                className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg pl-10 pr-3 py-2"
+                placeholder="Введите логин"
+                required
+                autoFocus
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-300 mb-1">Пароль</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaLock className="text-gray-400" />
+              </div>
+              <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg pl-10 pr-3 py-2"
+                placeholder="Введите пароль"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-2 rounded-lg font-semibold transition flex items-center justify-center ${
+                loading ? "bg-gray-600 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+              }`}
+            >
+              {loading ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Проверка...
+                </>
+              ) : "Войти"}
+            </button>
+          </div>
+        </form>
       </div>
-      
-      {authError && (
-        <div className="bg-red-900/80 text-red-200 p-3 rounded text-sm mb-4">
-          {authError}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm text-gray-300 mb-1">Логин администратора</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaUser className="text-gray-400" />
-            </div>
-            <input
-              type="text"
-              name="login"
-              value={credentials.login}
-              onChange={handleChange}
-              className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg pl-10 pr-3 py-2"
-              placeholder="Введите логин"
-              required
-              autoFocus
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm text-gray-300 mb-1">Пароль</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaLock className="text-gray-400" />
-            </div>
-            <input
-              type="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg pl-10 pr-3 py-2"
-              placeholder="Введите пароль"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-2 rounded-lg font-semibold transition flex items-center justify-center ${
-              loading ? "bg-gray-600 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
-            }`}
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Проверка...
-              </>
-            ) : "Войти"}
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
 
-// Компонент настроек
 const SettingsPanel = ({ settings, setSettings, onSave, onLogout }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -224,77 +222,16 @@ const SettingsPanel = ({ settings, setSettings, onSave, onLogout }) => {
   );
 };
 
-// Основной компонент
-function Orders() {
+const MainApp = ({ onLogout, settings, setSettings, handleSaveSettings }) => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [activeTab, setActiveTab] = useState('orders');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authError, setAuthError] = useState("");
-  const [authLoading, setAuthLoading] = useState(false);
-  const [settings, setSettings] = useState({
-    feePercent: 1.5,
-    receiveAddress: '',
-    exchangeTime: 30,
-    refreshInterval: 30
-  });
-
-  // Проверка аутентификации при загрузке (например, из localStorage)
-  useEffect(() => {
-    const savedAuth = localStorage.getItem('cryptoAuth');
-    if (savedAuth) {
-      // В реальном приложении нужно проверять токен с сервером
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  // Загрузка сохраненных настроек
-  useEffect(() => {
-    const savedSettings = localStorage.getItem('exchangeSettings');
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
-    }
-  }, []);
 
   const toggleExpand = (index) => {
     setExpandedRow(index === expandedRow ? null : index);
   };
 
-  const handleLogin = async ({ login, password }) => {
-    setAuthLoading(true);
-    setAuthError("");
-    
-    try {
-      // Имитация запроса к API
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // В реальном приложении нужно делать запрос к API
-      if (login === "admin" && password === "admin123") {
-        setIsAuthenticated(true);
-        localStorage.setItem('cryptoAuth', 'true');
-      } else {
-        throw new Error("Неверный логин или пароль");
-      }
-    } catch (error) {
-      setAuthError(error.message);
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('cryptoAuth');
-    setActiveTab('orders');
-  };
-
-  const handleSaveSettings = () => {
-    localStorage.setItem('exchangeSettings', JSON.stringify(settings));
-    // Можно добавить уведомление об успешном сохранении
-  };
-
   return (
     <div className="min-h-screen bg-black text-white flex">
-      {/* Боковое меню */}
       <aside className="w-60 bg-gray-900 border-r border-gray-800 p-6 flex flex-col">
         <div className="flex-grow">
           <h2 className="text-xl font-bold mb-6">Меню</h2>
@@ -309,48 +246,29 @@ function Orders() {
               <span>История заказов</span>
             </button>
             <button 
-              onClick={() => {
-                if (isAuthenticated) {
-                  setActiveTab('settings');
-                } else {
-                  setActiveTab('auth');
-                }
-              }}
+              onClick={() => setActiveTab('settings')}
               className={`flex items-center space-x-3 w-full text-left px-3 py-2 rounded-lg ${
                 activeTab === 'settings' ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800/50'
               }`}
             >
               <FaCog className="text-lg" />
               <span>Настройки</span>
-              {isAuthenticated && (
-                <span className="ml-auto text-xs bg-green-900 text-green-300 px-2 py-1 rounded-full">admin</span>
-              )}
+              <span className="ml-auto text-xs bg-green-900 text-green-300 px-2 py-1 rounded-full">admin</span>
             </button>
           </nav>
         </div>
 
-        {isAuthenticated && (
-          <button
-            onClick={handleLogout}
-            className="flex items-center space-x-2 text-sm text-red-400 hover:text-red-300 mt-auto pt-4"
-          >
-            <FaSignOutAlt />
-            <span>Выйти из системы</span>
-          </button>
-        )}
+        <button
+          onClick={onLogout}
+          className="flex items-center space-x-2 text-sm text-red-400 hover:text-red-300 mt-auto pt-4"
+        >
+          <FaSignOutAlt />
+          <span>Выйти из системы</span>
+        </button>
       </aside>
 
-      {/* Основное содержимое */}
       <main className="flex-grow p-6 bg-gradient-to-br from-gray-900 via-black to-gray-950 overflow-auto">
-        {activeTab === 'auth' ? (
-          <div className="flex items-center justify-center h-full">
-            <AuthForm 
-              onLogin={handleLogin} 
-              authError={authError} 
-              loading={authLoading} 
-            />
-          </div>
-        ) : activeTab === 'orders' ? (
+        {activeTab === 'orders' ? (
           <>
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-2xl md:text-3xl font-bold text-white drop-shadow-md">История заказов</h1>
@@ -457,33 +375,89 @@ function Orders() {
             </div>
           </>
         ) : (
-          <div className="max-w-4xl mx-auto">
-            {isAuthenticated ? (
-              <SettingsPanel 
-                settings={settings} 
-                setSettings={setSettings} 
-                onSave={handleSaveSettings}
-                onLogout={handleLogout}
-              />
-            ) : (
-              <div className="text-center py-16">
-                <div className="bg-gray-900/80 border border-gray-700 rounded-xl p-8 inline-block">
-                  <FaLock className="text-5xl text-yellow-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Доступ запрещен</h3>
-                  <p className="text-gray-400 mb-6">Для доступа к настройкам требуется авторизация администратора</p>
-                  <button
-                    onClick={() => setActiveTab('auth')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm"
-                  >
-                    Перейти к авторизации
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          <SettingsPanel 
+            settings={settings} 
+            setSettings={setSettings} 
+            onSave={handleSaveSettings}
+            onLogout={onLogout}
+          />
         )}
       </main>
     </div>
+  );
+};
+
+function Orders() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
+  const [settings, setSettings] = useState({
+    feePercent: 1.5,
+    receiveAddress: '',
+    exchangeTime: 30,
+    refreshInterval: 30
+  });
+
+  useEffect(() => {
+    const savedAuth = localStorage.getItem('cryptoAuth');
+    if (savedAuth) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('exchangeSettings');
+    if (savedSettings) {
+      setSettings(JSON.parse(savedSettings));
+    }
+  }, []);
+
+  const handleLogin = async ({ login, password }) => {
+    setAuthLoading(true);
+    setAuthError("");
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      if (login === "admin" && password === "admin123") {
+        setIsAuthenticated(true);
+        localStorage.setItem('cryptoAuth', 'true');
+      } else {
+        throw new Error("Неверный логин или пароль");
+      }
+    } catch (error) {
+      setAuthError(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('cryptoAuth');
+  };
+
+  const handleSaveSettings = () => {
+    localStorage.setItem('exchangeSettings', JSON.stringify(settings));
+  };
+
+  return (
+    <>
+      {!isAuthenticated ? (
+        <AuthForm 
+          onLogin={handleLogin} 
+          authError={authError} 
+          loading={authLoading} 
+        />
+      ) : (
+        <MainApp 
+          onLogout={handleLogout}
+          settings={settings}
+          setSettings={setSettings}
+          handleSaveSettings={handleSaveSettings}
+        />
+      )}
+    </>
   );
 }
 
