@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { FaBitcoin, FaEthereum, FaRegEdit, FaCog, FaHistory } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaBitcoin, FaEthereum, FaRegEdit, FaCog, FaHistory, FaSignOutAlt } from "react-icons/fa";
 import { SiTether, SiBinance, SiMonero, SiCardano, SiRipple } from "react-icons/si";
 
 const coinIcons = {
@@ -135,10 +136,36 @@ function Orders() {
     exchangeTime: 30,
     refreshInterval: 30
   });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  // Проверка аутентификации при загрузке
+  useEffect(() => {
+    const authStatus = localStorage.getItem('cryptoAuth') === 'true';
+    if (!authStatus) {
+      navigate('/login');
+    } else {
+      setIsAuthenticated(true);
+    }
+  }, [navigate]);
 
   const toggleExpand = (index) => {
     setExpandedRow(index === expandedRow ? null : index);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('cryptoAuth');
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white flex">
@@ -159,6 +186,13 @@ function Orders() {
           >
             <FaCog />
             <span>Настройки</span>
+          </button>
+          <button 
+            onClick={handleLogout}
+            className="flex items-center space-x-2 w-full text-left text-gray-300 hover:text-white"
+          >
+            <FaSignOutAlt />
+            <span>Выйти</span>
           </button>
         </nav>
       </aside>
@@ -320,7 +354,7 @@ function Orders() {
               <div className="pt-4">
                 <button
                   onClick={() => {
-                    // Здесь можно добавить сохранение в localStorage или API
+                    localStorage.setItem('exchangeSettings', JSON.stringify(settings));
                     setActiveTab('orders');
                   }}
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded font-semibold transition"
