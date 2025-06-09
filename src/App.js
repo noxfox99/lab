@@ -3,6 +3,32 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { SiTether, SiMonero } from "react-icons/si";
 
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Orders from './Orders';
+import Auth from './Auth';
+
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={
+          isAuthenticated ? <Navigate to="/orders" /> : 
+          <Auth onLogin={(status) => {
+            localStorage.setItem('cryptoAuth', 'true');
+            setIsAuthenticated(status);
+          }} />
+        } />
+        <Route path="/orders" element={
+          isAuthenticated ? <Orders /> : <Navigate to="/login" />
+        } />
+        <Route path="/" element={<Navigate to="/login" />} />
+      </Routes>
+    </Router>
+  );
+}
+
 // Функция для получения курса с Binance API
 const fetchBinanceRate = async (fromSymbol, toSymbol) => {
   try {
