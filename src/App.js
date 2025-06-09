@@ -3,20 +3,39 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import { SiTether, SiMonero } from "react-icons/si";
 
-// Список поддерживаемых монет с их иконками и API-идентификаторами
+// Функция для получения курса с Binance API
+const fetchBinanceRate = async (fromSymbol, toSymbol) => {
+  try {
+    // Пробуем прямую пару (BTC/USDT)
+    const response = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${fromSymbol}${toSymbol}`);
+    const data = await response.json();
+    return parseFloat(data.price);
+  } catch (error) {
+    // Если прямой пары нет, пробуем обратную (USDT/BTC)
+    try {
+      const response = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${toSymbol}${fromSymbol}`);
+      const data = await response.json();
+      return 1 / parseFloat(data.price);
+    } catch (e) {
+      throw new Error(`Курс для пары ${fromSymbol}/${toSymbol} не найден`);
+    }
+  }
+};
+
+// Список поддерживаемых монет с Binance символами
 const coins = [
-  { symbol: "BTC", icon: <FaBitcoin />, id: "bitcoin" },
-  { symbol: "XMR", icon: <SiMonero />, id: "monero" },
-  { symbol: "USDT", icon: <SiTether />, id: "tether" },
-  { symbol: "ETH", icon: <FaEthereum />, id: "ethereum" },
-  { symbol: "BNB", id: "binancecoin" },
-  { symbol: "ADA", id: "cardano" },
-  { symbol: "XRP", id: "ripple" }
+  { symbol: "BTC", icon: <FaBitcoin />, binanceSymbol: "BTC" },
+  { symbol: "ETH", icon: <FaEthereum />, binanceSymbol: "ETH" },
+  { symbol: "USDT", icon: <SiTether />, binanceSymbol: "USDT" },
+  { symbol: "XMR", icon: <SiMonero />, binanceSymbol: "XMR" },
+  { symbol: "BNB", binanceSymbol: "BNB" },
+  { symbol: "ADA", binanceSymbol: "ADA" },
+  { symbol: "XRP", binanceSymbol: "XRP" }
 ];
 
 function App() {
-  const [fromCoin, setFromCoin] = useState(coins[0]); // BTC по умолчанию
-  const [toCoin, setToCoin] = useState(coins[2]); // USDT по умолчанию
+  const [fromCoin, setFromCoin] = useState(coins[0]);
+  const [toCoin, setToCoin] = useState(coins[2]);
   const [amount, setAmount] = useState("1");
   const [rate, setRate] = useState(null);
   const [received, setReceived] = useState("0");
@@ -24,52 +43,64 @@ function App() {
   const [animateCoins, setAnimateCoins] = useState(false);
   const [showUSDT, setShowUSDT] = useState(false);
   const [trigger, setTrigger] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Загрузка реальных курсов
-  useEffect(() => {
-    const fetchRates = async () => {
+  // Основная функция расчета
+  const calculateExchange = async () => {
+    if (!amount || parseFloat(amount) <= 0) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Получаем курс с Binance
+      const currentRate = await fetchBinanceRate(
+        fromCoin.binanceSymbol,
+        toCoin.binanceSymbol
+      );
+      
+      setRate(currentRate.toFixed(8));
+      setReceived((parseFloat(amount) * currentRate).toFixed(8));
+      
+    } catch (error) {
+      setError(error.message);
+      // Fallback на CoinGecko если Binance не работает
       try {
-        setLoading(true);
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${fromCoin.id},${toCoin.id}&vs_currencies=usd`
+          `https://api.coingecko.com/api/v3/simple/price?ids=${fromCoin.binanceSymbol.toLowerCase()}&vs_currencies=${toCoin.binanceSymbol.toLowerCase()}`
         );
         const data = await response.json();
-        
-        const fromRate = data[fromCoin.id]?.usd;
-        const toRate = data[toCoin.id]?.usd;
-        
-        if (fromRate && toRate) {
-          const calculatedRate = fromRate / toRate;
-          setRate(calculatedRate.toFixed(6));
-          setReceived((amount * calculatedRate).toFixed(6));
+        const fallbackRate = data[fromCoin.binanceSymbol.toLowerCase()]?.[toCoin.binanceSymbol.toLowerCase()];
+        if (fallbackRate) {
+          setRate(fallbackRate);
+          setReceived((parseFloat(amount) * fallbackRate).toFixed(8));
         }
-      } catch (err) {
-        setError("Failed to fetch rates. Using default values.");
-        // Запасные значения
-        setRate("105000");
-        setReceived((amount * 105000).toFixed(2));
-      } finally {
-        setLoading(false);
+      } catch (geckoError) {
+        console.error("CoinGecko fallback failed:", geckoError);
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchRates();
-    const interval = setInterval(fetchRates, 60000); // Обновление каждую минуту
-
-    return () => clearInterval(interval);
+  // Вызываем расчет при изменении параметров
+  useEffect(() => {
+    calculateExchange();
   }, [fromCoin, toCoin, amount]);
 
+  // Автообновление курса каждые 30 секунд
+  useEffect(() => {
+    const interval = setInterval(() => {
+      calculateExchange();
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [fromCoin, toCoin]);
+
   const handleSwap = () => {
-    // Анимация
     setAnimateCoins(false);
     setTimeout(() => setAnimateCoins(true), 50);
-    
-    // Обновление курса (в реальном приложении здесь будет API-запрос)
-    if (rate) {
-      setReceived((amount * rate).toFixed(6));
-    }
+    calculateExchange();
   };
 
   // Автоматическая анимация иконок
@@ -150,8 +181,8 @@ function App() {
             </h2>
 
             {error && (
-              <div className="bg-red-900 text-red-200 p-2 rounded text-sm">
-                {error}
+              <div className="bg-yellow-900 text-yellow-200 p-2 rounded text-sm">
+                {error} (используются резервные данные)
               </div>
             )}
 
@@ -187,18 +218,20 @@ function App() {
               </div>
             </div>
 
-            <div className="text-xs text-gray-400">
+            <div className="bg-gray-800 p-3 rounded border border-gray-700">
               {loading ? (
-                "Loading rate..."
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span>Получение актуального курса...</span>
+                </div>
               ) : (
                 <>
-                  Current rate: 1 {fromCoin.symbol} ≈ {rate} {toCoin.symbol}
-                  <button 
-                    onClick={handleSwap}
-                    className="ml-2 text-blue-400 hover:text-blue-300"
-                  >
-                    Refresh
-                  </button>
+                  <div className="font-mono text-center">
+                    1 {fromCoin.symbol} = {rate} {toCoin.symbol}
+                  </div>
+                  <div className="text-xs text-center text-green-400 mt-1">
+                    {error ? "CoinGecko" : "Binance"} • Обновляется каждые 30 сек
+                  </div>
                 </>
               )}
             </div>
@@ -209,7 +242,7 @@ function App() {
                 <input
                   type="text"
                   className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-                  value={loading ? "Calculating..." : received}
+                  value={loading ? "..." : received}
                   readOnly
                 />
               </div>
@@ -237,7 +270,7 @@ function App() {
               <input
                 type="text"
                 className="w-full bg-gray-800 text-white border border-gray-600 rounded px-3 py-2"
-                placeholder={`Enter the ${toCoin.symbol} payout address`}
+                placeholder={`Enter ${toCoin.symbol} address`}
                 value={wallet}
                 onChange={(e) => setWallet(e.target.value)}
               />
@@ -248,14 +281,24 @@ function App() {
 
             <button
               onClick={handleSwap}
-              disabled={loading || !wallet}
-              className={`w-full py-2 rounded font-semibold transition ${
-                loading || !wallet
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-green-600 hover:bg-green-700"
+              disabled={loading || !wallet || parseFloat(amount) <= 0}
+              className={`w-full py-3 rounded-lg font-bold transition-all ${
+                loading || !wallet || parseFloat(amount) <= 0
+                  ? "bg-gray-700 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700 hover:shadow-lg"
               }`}
             >
-              {loading ? "Processing..." : "Обменять"}
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </span>
+              ) : (
+                "ОБМЕНЯТЬ СЕЙЧАС"
+              )}
             </button>
           </div>
         </div>
