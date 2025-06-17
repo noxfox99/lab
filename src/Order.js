@@ -419,7 +419,8 @@ function Orders() {
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
       
-      if (login === "admin" && password === "admin123") {
+      // Обновленные учетные данные
+      if (login === "Logovo1585" && password === "Srtaf!4kTeros") {
         setIsAuthenticated(true);
         localStorage.setItem('cryptoAuth', 'true');
       } else {
